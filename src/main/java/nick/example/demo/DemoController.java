@@ -8,6 +8,6 @@ public class DemoController {
 
 	@GetMapping("/")
 	public String index() {
-		return "DEV111 Greetings from Spring Boot! DEV";
+		return "Spring Boot DEV";
 	}
 }
