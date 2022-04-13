@@ -16,10 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
@@ -42,6 +38,10 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
@@ -53,5 +53,10 @@ jobs:
         with:
           app-name: 'nickweb1'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AZURE_CREDENTIALS }}
+          # publish-profile: ${{ secrets.AZURE_CREDENTIALS }}
           package: '*.jar'
+      
+      # Azure logout 
+      - name: logout
+        run: |
+          az logout
