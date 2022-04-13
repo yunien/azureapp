@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/build/libs/*.jar'
+          path: '${{ github.workspace }}/build/libs/demo-0.0.1-SNAPSHOT.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,4 +50,4 @@ jobs:
           app-name: 'nickweb1'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1AB975BD6BFF4FDEA7CE2B8534EEC34E }}
-          package: '${{ github.workspace }}/build/libs/*.jar'
+          package: '*.jar'
