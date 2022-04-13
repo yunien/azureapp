@@ -50,4 +50,4 @@ jobs:
           app-name: 'nickweb1'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1AB975BD6BFF4FDEA7CE2B8534EEC34E }}
-          package: '*.jar'
+          package: '${{ github.workspace }}/build/libs/*.jar'
