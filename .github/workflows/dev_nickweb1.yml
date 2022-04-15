@@ -17,9 +17,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: dev
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    environment: dev
+      env: 
+        KEYYY: ${secrets.KEYYY}
+        url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
       - name: test Env params
