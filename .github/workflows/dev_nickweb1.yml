@@ -19,10 +19,12 @@ jobs:
     needs: build
     environment:
       name: dev
+      env: 
+        key1: ${{ secrets.KEYYY }}
     
     steps:
       - name: test Env params
         run: echo running on branch ${GITHUB_REF##*/}
       - name: KEY
-        run: echo KEYYY ${dev.KEYYY}
+        run: echo KEYYY ${env.key1}
       
