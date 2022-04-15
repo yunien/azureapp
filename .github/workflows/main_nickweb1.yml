@@ -28,7 +28,7 @@ jobs:
     needs: build
     environment:
       name: dev
-      # url: ${{ steps.deploy-dev-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-dev-to-webapp.outputs.webapp-url }}
     
     steps:
       - name: Download artifact from build job
@@ -51,7 +51,7 @@ jobs:
     needs: build
     environment:
       name: production
-      # url: ${{ steps.deploy-prod-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-prod-to-webapp.outputs.webapp-url }}
     
     steps:
       - name: Download artifact from build job
