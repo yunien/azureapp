@@ -17,9 +17,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment: dev
-      env: 
-        KEYYY: ${{ secrets.KEYYY }}
+    environment:
+      name: dev
     
     steps:
       - name: test Env params
