@@ -1,0 +1,33 @@
+name: test
+
+on:
+  push:
+    branches: [dev]
+
+env:
+  BRANCH_NAME: ${ GITHUB_REF_NAME }
+
+jobs:
+  test:
+    # if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment:
+      # branch name
+      name: ${ GITHUB_REF_NAME }
+    
+    steps:
+      # - uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: env BRANCH_NAME
+        run: echo ${env.BRANCH_NAME}
+      - name: BRANCH_NAME
+        run: echo $BRANCH_NAME
+      - name: GITHUB_REF_NAME
+        run: echo ${GITHUB_REF_NAME}
+      
+      # Azure logout 
+      # - name: logout
+      #   run: |
+      #     az logout
