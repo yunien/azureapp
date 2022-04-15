@@ -28,7 +28,7 @@ jobs:
     needs: build
     environment:
       name: dev
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-dev-to-webapp.outputs.webapp-url }}
     
     steps:
       - name: Download artifact from build job
@@ -37,7 +37,7 @@ jobs:
           name: java-app
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+        id: deploy-dev-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'nickweb1'
@@ -51,7 +51,7 @@ jobs:
     needs: build
     environment:
       name: production
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-prod-to-webapp.outputs.webapp-url }}
     
     steps:
       - name: Download artifact from build job
@@ -60,7 +60,7 @@ jobs:
           name: java-app
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+        id: deploy-prod-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'nickweb1'
