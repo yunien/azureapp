@@ -1,18 +1,14 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy JAR app to Azure Web App - nickweb1
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-
+      - dev
+#  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -31,10 +27,12 @@ jobs:
           path: '${{ github.workspace }}/build/libs/demo-0.0.1-SNAPSHOT.jar'
 
   deploy:
+    if: github.event.pull_request.merged == 'true'
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      # branch name
+      name: ${ GITHUB_REF##*/ }
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
@@ -52,7 +50,8 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'nickweb1'
-          slot-name: 'production'
+          # branch name = slot name
+          slot-name: ${ GITHUB_REF##*/ }
           publish-profile: ${{ secrets.AZURE_CREDENTIALS }}
           package: '*.jar'
       
