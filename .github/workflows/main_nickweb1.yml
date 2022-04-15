@@ -42,7 +42,7 @@ jobs:
         with:
           app-name: 'nickweb1'
           slot-name: 'dev'
-          publish-profile: ${secrets.AZURE_CREDENTIALS_DEV}
+          publish-profile: ${{ AZURE_CREDENTIALS }}
           package: '*.jar'
   
   prod-deploy:
