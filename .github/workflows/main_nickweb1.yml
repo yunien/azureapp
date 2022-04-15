@@ -11,39 +11,34 @@ env:
   BRANCH: ${ GITHUB_REF##*/ }
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Set up Java version
-  #       uses: actions/setup-java@v1
-  #       with:
-  #         java-version: '8'
-
-  #     - name: Build with Gradle
-  #       run: ./gradlew clean build
-
-  #     - name: Upload artifact for deployment job
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: java-app
-  #         path: '${{ github.workspace }}/build/libs/demo-0.0.1-SNAPSHOT.jar'
-
-  deploy:
-    # if: github.event.pull_request.merged == true
+  build:
     runs-on: ubuntu-latest
-    # needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '8'
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/build/libs/demo-0.0.1-SNAPSHOT.jar'
+
+  dev-deploy:
+    if: ${{ GITHUB_REF_NAME }} == 'dev'
+    runs-on: ubuntu-latest
+    needs: build
     environment:
-      # branch name
-      name: ${ env.BRANCH }
+      name: dev
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
-      # - uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
@@ -54,12 +49,29 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'nickweb1'
-          # branch name = slot name
-          slot-name: ${ GITHUB_REF##*/ }
+          slot-name: 'dev'
           publish-profile: ${AZURE_CREDENTIALS}
           package: '*.jar'
-      
-      # Azure logout 
-      # - name: logout
-      #   run: |
-      #     az logout
+  
+  dev-deploy:
+    if: ${{ GITHUB_REF_NAME }} == 'main'
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: production
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: java-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'nickweb1'
+          slot-name: 'production'
+          publish-profile: ${AZURE_CREDENTIALS}
+          package: '*.jar'
