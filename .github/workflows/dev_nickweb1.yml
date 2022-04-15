@@ -19,13 +19,10 @@ jobs:
     needs: build
     environment:
       name: dev
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
       - name: test Env params
         run: echo running on branch ${GITHUB_REF##*/}
-      - name: URL
-        run: echo URL ${secrets.url}
       - name: KEY
         run: echo KEYYY ${secrets.KEYYY}
       
