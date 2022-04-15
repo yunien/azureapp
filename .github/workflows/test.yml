@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       # branch name
-      name: ${{ GITHUB_REF_NAME }}
+      name: "${{ GITHUB_REF_NAME }}"
     
     steps:
       # - uses: azure/login@v1
