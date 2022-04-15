@@ -4,9 +4,6 @@ on:
   push:
     branches: [dev]
 
-env:
-  BRANCH_NAME: ${ GITHUB_REF_NAME }
-
 jobs:
   test:
     # if: github.event.pull_request.merged == true
@@ -16,6 +13,7 @@ jobs:
       name: ${ GITHUB_REF_NAME }
     
     steps:
+      environment: ${GITHUB_REF_NAME}
       # - uses: azure/login@v1
       #   with:
       #     creds: ${{ secrets.AZURE_CREDENTIALS }}
