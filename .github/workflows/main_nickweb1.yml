@@ -1,15 +1,7 @@
 name: Build and deploy JAR app to Azure Web App - nickweb1
-
 on:
   push:
-    branches:
-      - main
-      # - dev
-#  workflow_dispatch:
-
-env:
-  BRANCH: ${ GITHUB_REF##*/ }
-
+    branches: [main, dev]
 jobs:
   build:
     runs-on: ubuntu-latest
