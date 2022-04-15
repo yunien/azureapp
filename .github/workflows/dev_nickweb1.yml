@@ -24,5 +24,9 @@ jobs:
       - name: test Env params
         run: echo running on branch ${GITHUB_REF##*/}
       - name: KEY
-        run: echo KEYYY ${KEYYY}
+        with:
+          KEY: ${{ secrets.KEYYY }}
+        env:
+          KKK: ${{ secrets.KEYYY }}
+        run: echo KEYYY ${KKK} KEY with$ {KEY}
       
