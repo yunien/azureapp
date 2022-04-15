@@ -1,0 +1,28 @@
+name: Build and deploy JAR app to Azure Web App - nickweb1
+
+on:
+  push:
+    branches:
+      - dev
+#  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: ${{GITHUB_REF##*/}}
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    
+    steps:
+      - name: test Env params
+        run: 
+          - echo running on branch ${GITHUB_REF##*/}
+          - echo running on branch ${env.KEYYY}
