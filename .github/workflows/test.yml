@@ -20,8 +20,8 @@ jobs:
       #   with:
       #     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: env BRANCH_NAME
-        run: echo ${env.BRANCH_NAME}
+      # - name: env BRANCH_NAME
+      #   run: echo ${env.BRANCH_NAME}
       - name: BRANCH_NAME
         run: echo $BRANCH_NAME
       - name: GITHUB_REF_NAME
