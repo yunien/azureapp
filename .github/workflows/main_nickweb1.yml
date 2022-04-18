@@ -4,6 +4,7 @@ on:
     branches: [main, dev]
 jobs:
   build:
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -54,16 +55,20 @@ jobs:
       url: ${{ steps.deploy-prod-to-webapp.outputs.webapp-url }}
     
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: java-app
+      - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Azure CLI script
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.35.0
+        inlineScript: |
+          az account show
+          az storage -h
+          az webapp deployment slot swap --name nickweb1 --resource-group Nick-WebApp --slot dev --target-slot production
 
-      - name: Deploy to Azure Web App
-        id: deploy-prod-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'nickweb1'
-          slot-name: 'production'
-          publish-profile: ${secrets.AZURE_CREDENTIALS}
-          package: '*.jar'
+      - name: logout
+        run: |
+          az logout
