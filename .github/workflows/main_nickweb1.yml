@@ -56,18 +56,18 @@ jobs:
     
     steps:
       - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       
       - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.35.0
-        inlineScript: |
-          az account show
-          az storage -h
-          az webapp deployment slot swap --name nickweb1 --resource-group Nick-WebApp --slot dev --target-slot production
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.35.0
+          inlineScript: |
+            az account show
+            az storage -h
+            az webapp deployment slot swap --name nickweb1 --resource-group Nick-WebApp --slot dev --target-slot production
 
       - name: logout
         run: |
