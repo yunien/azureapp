@@ -2,7 +2,6 @@ plugins {
 	id 'org.springframework.boot' version '2.6.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id "com.microsoft.azure.azurewebapp" version "1.2.0"
 }
 
 group = 'nick.example'
@@ -16,28 +15,15 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	
+	
+	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-azurewebapp {
-    subscription = '286789e6-4691-48f8-b4b8-c23c70a2728f'
-    resourceGroup = 'Nick-WebApp'
-    appName = 'nickweb1'
-    pricingTier = 'P1v2'
-    region = 'East Asia'
-    runtime {
-      os = 'Linux'
-      webContainer = 'Java SE'
-      javaVersion = 'Java 8'
-    }
-    appSettings {
-        env = dev
-    }
-    // auth {
-    //     type = 'azure_cli' // support azure_cli, oauth2, device_code and service_principal
-    // }
 }
