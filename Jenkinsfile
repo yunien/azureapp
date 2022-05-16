@@ -8,4 +8,12 @@ pipeline {
             }
         }
     }
+    node('Linux') {
+        stage('hostnamectl') {
+            steps { 
+                sh 'cat hostnamectl' 
+            }
+        }
+    }
+    
 }
