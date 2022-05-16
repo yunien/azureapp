@@ -1,17 +1,18 @@
 pipeline {
-    agent any
+    agent { label 'master' }
 
     stages {
         stage('Hello') {
             steps {
                 echo 'Hello World'
-                sh 'cat hostnamectl' 
             }
         }
         stage('linux') {
-            agent {label 'linux'}
+            agent { label 'linux' }
+            options { skipDefaultCheckout() }
             steps {
-                sh 'cat hostnamectl' 
+                echo 'linux'
+                sh 'hostnamectl'
             }
         }
     }
