@@ -5,12 +5,12 @@ pipeline {
         stage('Hello') {
             steps {
                 echo 'Hello World'
+                sh 'cat hostnamectl' 
             }
         }
-    }
-    node('Linux') {
-        stage('hostnamectl') {
-            steps { 
+        stage('linux') {
+            agent {label 'linux'}
+            steps {
                 sh 'cat hostnamectl' 
             }
         }
